@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Monogame_4___The_Die_Class
 {
@@ -8,6 +9,13 @@ namespace Monogame_4___The_Die_Class
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
+        Die die1;
+
+        KeyboardState currentKeyboardState, prevKeyboardState;
+
+        List<Texture2D> dieTextures;
+        List<Die> dice;
 
         public Game1()
         {
@@ -18,7 +26,15 @@ namespace Monogame_4___The_Die_Class
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            dieTextures = new List<Texture2D>();
+            dice = new List<Die>();
+
+            for (int i = 10; i <= 410; i += 80)
+            {
+                dice.Add(new Die(dieTextures, new Rectangle(100, 0 + i, 75, 75)));
+            }
+
+            die1 = new Die(dieTextures, new Rectangle(10, 10, 75, 75));
 
             base.Initialize();
         }
@@ -27,15 +43,27 @@ namespace Monogame_4___The_Die_Class
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            for (int i = 1; i <= 6; i++)
+            {
+                dieTextures.Add(Content.Load<Texture2D>("Images/white_die_" + i));
+            }
+
             // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
         {
+            currentKeyboardState = Keyboard.GetState();
+            
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            if (currentKeyboardState.IsKeyDown(Keys.Space) && prevKeyboardState.IsKeyUp(Keys.Space))
+                die1.RollDie();
+
             // TODO: Add your update logic here
+
+            prevKeyboardState = currentKeyboardState;
 
             base.Update(gameTime);
         }
@@ -44,7 +72,15 @@ namespace Monogame_4___The_Die_Class
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            _spriteBatch.Begin();
+
+            die1.DrawDie(_spriteBatch);
+            foreach (Die die in dice)
+            {
+                die.DrawDie(_spriteBatch);
+            }
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

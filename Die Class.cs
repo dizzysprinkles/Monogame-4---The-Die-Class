@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,11 +12,15 @@ namespace Monogame_4___The_Die_Class
     {
         private int _roll;
         private Random _generator;
+        private List<Texture2D> _faces;
+        private Rectangle _location;  //Might get ambigious error if importing System.Draw and the Microsoft Framework...
 
-        public Die()
+        public Die(List<Texture2D> faces, Rectangle location)
         {
             _generator = new Random();
             _roll = _generator.Next(1, 7);
+            _faces = faces;
+            _location = location;
         }
 
 
@@ -33,69 +39,9 @@ namespace Monogame_4___The_Die_Class
             return _roll;
         }
 
-        public void DrawRoll()
+        public void DrawDie(SpriteBatch spriteBatch)
         {
-            if (_roll == 1)
-            {
-                Console.WriteLine("-----");
-                Console.WriteLine("|   |");
-                Console.WriteLine("| o |");
-                Console.WriteLine("|   |");
-                Console.WriteLine("-----");
-            }
-            else if (_roll == 2)
-            {
-                Console.WriteLine("-----");
-                Console.WriteLine("|o  |");
-                Console.WriteLine("|   |");
-                Console.WriteLine("|  o|");
-                Console.WriteLine("-----");
-            }
-
-            else if (_roll == 3)
-            {
-                Console.WriteLine("-----");
-                Console.WriteLine("|o  |");
-                Console.WriteLine("| o |");
-                Console.WriteLine("|  o|");
-                Console.WriteLine("-----");
-            }
-            else if (_roll == 4)
-            {
-                Console.WriteLine("-----");
-                Console.WriteLine("|o o|");
-                Console.WriteLine("|   |");
-                Console.WriteLine("|o o|");
-                Console.WriteLine("-----");
-            }
-            else if (_roll == 5)
-            {
-                Console.WriteLine("-----");
-                Console.WriteLine("|o o|");
-                Console.WriteLine("| o |");
-                Console.WriteLine("|o o|");
-                Console.WriteLine("-----");
-            }
-            else if (_roll == 6)
-            {
-                Console.WriteLine("-----");
-                Console.WriteLine("|o o|");
-                Console.WriteLine("|o o|");
-                Console.WriteLine("|o o|");
-                Console.WriteLine("-----");
-            }
-            else
-            {
-                Console.WriteLine("-----");
-                Console.WriteLine("|   |");
-                Console.WriteLine($"| {_roll} |");
-                Console.WriteLine("|   |");
-                Console.WriteLine("-----");
-            }
-
-
-
-
+            spriteBatch.Draw(_faces[_roll - 1], _location, Color.White); 
         }
 
         public override string ToString()
