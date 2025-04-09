@@ -13,6 +13,7 @@ namespace Monogame_4___The_Die_Class
         Die die1;
 
         KeyboardState currentKeyboardState, prevKeyboardState;
+        MouseState currentMouseState, prevMouseState;
 
         List<Texture2D> dieTextures;
         List<Die> dice;
@@ -58,6 +59,7 @@ namespace Monogame_4___The_Die_Class
         protected override void Update(GameTime gameTime)
         {
             currentKeyboardState = Keyboard.GetState();
+            currentMouseState = Mouse.GetState();
             
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -73,8 +75,20 @@ namespace Monogame_4___The_Die_Class
 
                 }
             }
+            if (currentMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
+            {
+                for (int i = 0; i < dice.Count; i++)
+                {
+                    if (dice[i].Location.Contains(currentMouseState.Position))
+                    {
+                        dice.RemoveAt(i);
+                        i--;
+                    }
+                }
+            }
             
             prevKeyboardState = currentKeyboardState;
+            prevMouseState = currentMouseState;
 
             base.Update(gameTime);
         }

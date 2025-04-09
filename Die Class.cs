@@ -39,6 +39,10 @@ namespace Monogame_4___The_Die_Class
             return _roll + "";
         }
 
+        public Rectangle Location
+        {
+            get { return _location; }
+        }
 
         public int RollDie()
         {
