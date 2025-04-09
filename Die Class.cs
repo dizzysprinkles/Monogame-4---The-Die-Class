@@ -34,6 +34,12 @@ namespace Monogame_4___The_Die_Class
             //}
         }
 
+        public override string ToString() 
+        {
+            return _roll + "";
+        }
+
+
         public int RollDie()
         {
             _roll = _generator.Next(1, 7);
@@ -63,11 +69,7 @@ namespace Monogame_4___The_Die_Class
             }
         }
 
-        public override string ToString()
-        {
-            return _roll.ToString();
-        }
-
+    
     }
 
 

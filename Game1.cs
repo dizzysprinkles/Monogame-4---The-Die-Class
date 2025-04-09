@@ -17,6 +17,9 @@ namespace Monogame_4___The_Die_Class
         List<Texture2D> dieTextures;
         List<Die> dice;
 
+        SpriteFont sumFont;
+        int sumRolls;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -35,7 +38,7 @@ namespace Monogame_4___The_Die_Class
             }
 
             die1 = new Die(dieTextures, new Rectangle(10, 10, 75, 75));
-
+            sumRolls = 0;
             base.Initialize();
         }
 
@@ -48,7 +51,8 @@ namespace Monogame_4___The_Die_Class
                 dieTextures.Add(Content.Load<Texture2D>("Images/white_die_" + i));
             }
 
-            // TODO: use this.Content to load your game content here
+            sumFont = Content.Load<SpriteFont>("Fonts/SumFont");
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -59,18 +63,17 @@ namespace Monogame_4___The_Die_Class
                 Exit();
 
             if (currentKeyboardState.IsKeyDown(Keys.Space) && prevKeyboardState.IsKeyUp(Keys.Space))
-                die1.RollDie();
-
-            if (currentKeyboardState.IsKeyDown(Keys.Enter) && prevKeyboardState.IsKeyUp(Keys.Enter))
             {
+                die1.RollDie();
+                sumRolls = die1.Roll;
                 foreach (Die die in dice)
                 {
                     die.RollDie();
+                    sumRolls = die.Roll + sumRolls;
+
                 }
             }
-
-            // TODO: Add your update logic here
-
+            
             prevKeyboardState = currentKeyboardState;
 
             base.Update(gameTime);
@@ -88,7 +91,7 @@ namespace Monogame_4___The_Die_Class
             {
                 die.DrawDie(_spriteBatch);
             }
-
+            _spriteBatch.DrawString(sumFont, $"Total Sum: {sumRolls}", new Vector2(300, 10), Color.Black);
             _spriteBatch.End();
 
             base.Draw(gameTime);
