@@ -61,6 +61,14 @@ namespace Monogame_4___The_Die_Class
             if (currentKeyboardState.IsKeyDown(Keys.Space) && prevKeyboardState.IsKeyUp(Keys.Space))
                 die1.RollDie();
 
+            if (currentKeyboardState.IsKeyDown(Keys.Enter) && prevKeyboardState.IsKeyUp(Keys.Enter))
+            {
+                foreach (Die die in dice)
+                {
+                    die.RollDie();
+                }
+            }
+
             // TODO: Add your update logic here
 
             prevKeyboardState = currentKeyboardState;
@@ -75,6 +83,7 @@ namespace Monogame_4___The_Die_Class
             _spriteBatch.Begin();
 
             die1.DrawDie(_spriteBatch);
+
             foreach (Die die in dice)
             {
                 die.DrawDie(_spriteBatch);
