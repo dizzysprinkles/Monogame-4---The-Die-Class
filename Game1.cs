@@ -39,7 +39,13 @@ namespace Monogame_4___The_Die_Class
             }
 
             die1 = new Die(dieTextures, new Rectangle(10, 10, 75, 75));
-            sumRolls = 0;
+            sumRolls = die1.Roll;
+
+            for (int i = 0; i < dice.Count; i++)
+            {
+                sumRolls += dice[i].Roll;
+            }
+
             base.Initialize();
         }
 
@@ -51,6 +57,7 @@ namespace Monogame_4___The_Die_Class
             {
                 dieTextures.Add(Content.Load<Texture2D>("Images/white_die_" + i));
             }
+
             sumFont = Content.Load<SpriteFont>("Fonts/SumFont");
 
         }
@@ -75,17 +82,21 @@ namespace Monogame_4___The_Die_Class
 
                 }
             }
-            //Click check - removing from list
+            //Click check - Reroll if clicked
             if (currentMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
             {
+                sumRolls = die1.Roll;
                 for (int i = 0; i < dice.Count; i++)
                 {
                     if (dice[i].Location.Contains(currentMouseState.Position))
                     {
-                        dice.RemoveAt(i);
-                        i--;
+                        dice[i].RollDie();
+                        
                     }
+                    sumRolls = dice[i].Roll + sumRolls;
+
                 }
+
             }
             
             prevKeyboardState = currentKeyboardState;
@@ -106,7 +117,8 @@ namespace Monogame_4___The_Die_Class
             {
                 die.DrawDie(_spriteBatch);
             }
-            _spriteBatch.DrawString(sumFont, $"Total Sum: {sumRolls}", new Vector2(300, 10), Color.Black);
+            _spriteBatch.DrawString(sumFont, "Press the SPACEBAR to roll the dice!", new Vector2(200, 10), Color.Black);
+            _spriteBatch.DrawString(sumFont, $"Total Sum: {sumRolls}", new Vector2(300, 80), Color.Black);
             _spriteBatch.End();
 
             base.Draw(gameTime);
