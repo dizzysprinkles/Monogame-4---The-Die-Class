@@ -51,7 +51,6 @@ namespace Monogame_4___The_Die_Class
             {
                 dieTextures.Add(Content.Load<Texture2D>("Images/white_die_" + i));
             }
-
             sumFont = Content.Load<SpriteFont>("Fonts/SumFont");
 
         }
@@ -64,6 +63,7 @@ namespace Monogame_4___The_Die_Class
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            //Re-rolling dice
             if (currentKeyboardState.IsKeyDown(Keys.Space) && prevKeyboardState.IsKeyUp(Keys.Space))
             {
                 die1.RollDie();
@@ -75,6 +75,7 @@ namespace Monogame_4___The_Die_Class
 
                 }
             }
+            //Click check - removing from list
             if (currentMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
             {
                 for (int i = 0; i < dice.Count; i++)
