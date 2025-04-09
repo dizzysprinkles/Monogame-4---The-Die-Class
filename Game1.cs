@@ -39,7 +39,7 @@ namespace Monogame_4___The_Die_Class
             }
 
             die1 = new Die(dieTextures, new Rectangle(10, 10, 75, 75));
-            sumRolls = die1.Roll;
+            //sumRolls = die1.Roll;
 
             for (int i = 0; i < dice.Count; i++)
             {
@@ -74,7 +74,8 @@ namespace Monogame_4___The_Die_Class
             if (currentKeyboardState.IsKeyDown(Keys.Space) && prevKeyboardState.IsKeyUp(Keys.Space))
             {
                 die1.RollDie();
-                sumRolls = die1.Roll;
+                sumRolls = 0;
+                //sumRolls = die1.Roll;
                 foreach (Die die in dice)
                 {
                     die.RollDie();
@@ -82,10 +83,11 @@ namespace Monogame_4___The_Die_Class
 
                 }
             }
-            //Click check - Reroll if clicked
+            //LEFT Click check - Reroll if clicked
             if (currentMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
             {
-                sumRolls = die1.Roll;
+                sumRolls = 0;
+                //sumRolls = die1.Roll;
                 for (int i = 0; i < dice.Count; i++)
                 {
                     if (dice[i].Location.Contains(currentMouseState.Position))
@@ -98,7 +100,28 @@ namespace Monogame_4___The_Die_Class
                 }
 
             }
-            
+
+            //RIGHT Click check - Remove if clicked
+            if (currentMouseState.RightButton == ButtonState.Pressed && prevMouseState.RightButton == ButtonState.Released)
+            {
+                for (int i = 0; i < dice.Count; i++)
+                {
+                    if (dice[i].Location.Contains(currentMouseState.Position))
+                    {
+                        sumRolls -= dice[i].Roll;
+                        dice.RemoveAt(i);
+                        i--;
+
+                    }
+                }
+
+            }
+
+            if (dice.Count == 0)
+            {
+                Exit();
+            }
+
             prevKeyboardState = currentKeyboardState;
             prevMouseState = currentMouseState;
 
@@ -111,14 +134,18 @@ namespace Monogame_4___The_Die_Class
 
             _spriteBatch.Begin();
 
-            die1.DrawDie(_spriteBatch);
+            //die1.DrawDie(_spriteBatch);
 
             foreach (Die die in dice)
             {
                 die.DrawDie(_spriteBatch);
             }
             _spriteBatch.DrawString(sumFont, "Press the SPACEBAR to roll the dice!", new Vector2(200, 10), Color.Black);
-            _spriteBatch.DrawString(sumFont, $"Total Sum: {sumRolls}", new Vector2(300, 80), Color.Black);
+            _spriteBatch.DrawString(sumFont, "Left click a die to reroll it!", new Vector2(200, 80), Color.Black);
+            _spriteBatch.DrawString(sumFont, "Right click a die to remove it!", new Vector2(200, 160), Color.Black);
+            _spriteBatch.DrawString(sumFont, "Out of dice? Program ends!", new Vector2(200, 240), Color.Black);
+
+            _spriteBatch.DrawString(sumFont, $"Total Sum: {sumRolls}", new Vector2(300, 300), Color.Crimson);
             _spriteBatch.End();
 
             base.Draw(gameTime);
