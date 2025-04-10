@@ -69,8 +69,9 @@ namespace Monogame_4___The_Die_Class
                         _rotation = 0f;
                     }
                 }
-                spriteBatch.Draw(_faces[_randomFace], new Rectangle(_location.X + _location.Width / 2, _location.Y + _location.Height / 2, _location.Width, _location.Height), null, Color.White, _rotation, new Vector2(_faces[0].Width / 2, _faces[0].Height / 2), SpriteEffects.None, 0f); 
-                //Vector2 = Center of rectangle (so texture width and height / 2); Rectangle = offset to fix rotation (which is basically center of rectangle coordinate)
+                spriteBatch.Draw(_faces[_randomFace], new Rectangle(_location.X + _location.Width / 2, _location.Y + _location.Height / 2, _location.Width, _location.Height), null, Color.White, _rotation, new Vector2(_faces[0].Width / 2, _faces[0].Height / 2), SpriteEffects.None, 0f);
+                //Vector2 = Center of rectangle (so texture width and height / 2); Rectangle = offset to fix rotation (which is basically center of rectangle coordinate) - w/out, it rotates off the left
+                
             }
             else
             {

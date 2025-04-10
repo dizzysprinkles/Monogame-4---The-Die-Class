@@ -130,7 +130,6 @@ namespace Monogame_4___The_Die_Class
             {
                 die.DrawDie(_spriteBatch);
             }
-            //Rotate dice when drawing
             _spriteBatch.DrawString(sumFont, "Press the SPACEBAR to roll all the dice!", new Vector2(200, 10), Color.Black);
             _spriteBatch.DrawString(sumFont, "Left click a die to reroll it!", new Vector2(200, 80), Color.Black);
             _spriteBatch.DrawString(sumFont, "Right click a die to remove it!", new Vector2(200, 160), Color.Black);
