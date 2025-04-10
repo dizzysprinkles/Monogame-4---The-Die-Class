@@ -14,6 +14,7 @@ namespace Monogame_4___The_Die_Class
         private Random _generator;
         private List<Texture2D> _faces;
         private Rectangle _location;  //Might get ambigious error if importing System.Draw and the Microsoft Framework...
+        private float _rotation;
 
         public Die(List<Texture2D> faces, Rectangle location)
         {
@@ -22,6 +23,7 @@ namespace Monogame_4___The_Die_Class
             _faces = faces;
             _location = location;
             _frame = 0;
+            _rotation = 0f;
         }
 
 
@@ -57,15 +59,18 @@ namespace Monogame_4___The_Die_Class
             if (_frame > 0) // sec > 0, animating roll
             {
                _frame++;
+                _rotation += 0.1f;
                 if (_frame % 10 == 0) //every 10 frames display a random face
                 {
                     _randomFace = _generator.Next(_faces.Count());
                     if (_frame == 60) // after 60s, stop animating a roll
                     {
                         _frame = 0; // animation is done!
+                        _rotation = 0f;
                     }
                 }
-                spriteBatch.Draw(_faces[_randomFace], _location, Color.White);
+                spriteBatch.Draw(_faces[_randomFace], new Rectangle(_location.X + _location.Width / 2, _location.Y + _location.Height / 2, _location.Width, _location.Height), null, Color.White, _rotation, new Vector2(_faces[0].Width / 2, _faces[0].Height / 2), SpriteEffects.None, 0f); 
+                //Vector2 = Center of rectangle (so texture width and height / 2); Rectangle = offset to fix rotation (which is basically center of rectangle coordinate)
             }
             else
             {

@@ -10,8 +10,6 @@ namespace Monogame_4___The_Die_Class
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        Die die1;
-
         KeyboardState currentKeyboardState, prevKeyboardState;
         MouseState currentMouseState, prevMouseState;
 
@@ -37,9 +35,6 @@ namespace Monogame_4___The_Die_Class
             {
                 dice.Add(new Die(dieTextures, new Rectangle(100, 0 + i, 75, 75)));
             }
-
-            die1 = new Die(dieTextures, new Rectangle(10, 10, 75, 75));
-            //sumRolls = die1.Roll;
 
             for (int i = 0; i < dice.Count; i++)
             {
@@ -73,9 +68,7 @@ namespace Monogame_4___The_Die_Class
             //Re-rolling dice
             if (currentKeyboardState.IsKeyDown(Keys.Space) && prevKeyboardState.IsKeyUp(Keys.Space))
             {
-                die1.RollDie();
                 sumRolls = 0;
-                //sumRolls = die1.Roll;
                 foreach (Die die in dice)
                 {
                     die.RollDie();
@@ -87,7 +80,6 @@ namespace Monogame_4___The_Die_Class
             if (currentMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
             {
                 sumRolls = 0;
-                //sumRolls = die1.Roll;
                 for (int i = 0; i < dice.Count; i++)
                 {
                     if (dice[i].Location.Contains(currentMouseState.Position))
@@ -134,14 +126,12 @@ namespace Monogame_4___The_Die_Class
 
             _spriteBatch.Begin();
 
-            //die1.DrawDie(_spriteBatch);
-
             foreach (Die die in dice)
             {
                 die.DrawDie(_spriteBatch);
             }
             //Rotate dice when drawing
-            _spriteBatch.DrawString(sumFont, "Press the SPACEBAR to roll the dice!", new Vector2(200, 10), Color.Black);
+            _spriteBatch.DrawString(sumFont, "Press the SPACEBAR to roll all the dice!", new Vector2(200, 10), Color.Black);
             _spriteBatch.DrawString(sumFont, "Left click a die to reroll it!", new Vector2(200, 80), Color.Black);
             _spriteBatch.DrawString(sumFont, "Right click a die to remove it!", new Vector2(200, 160), Color.Black);
             _spriteBatch.DrawString(sumFont, "Out of dice? Program ends!", new Vector2(200, 240), Color.Black);
